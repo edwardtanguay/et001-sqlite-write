@@ -94,6 +94,31 @@ export const editFlashcard = (id: number, newFlashcard: INewFlashcard) => {
 	}
 }
 
+export const deleteFlashcard = (id: number) => {
+	try {
+		const formerFlashcard = model.getFlashcard(id);
+		const stmt = db.prepare(`DELETE FROM flashcards WHERE id = ?`);
+		const result = stmt.run(id);
+		if (result.changes === 1) {
+			return {
+				status: "success",
+				deletedFlashcard: formerFlashcard
+			}
+		} else {
+			return {
+				status: "error",
+				message: `database changes = ${result.changes}`
+			}
+		}
+	} 
+	catch (e) {
+		return {
+			status: "error",
+			message: e.message
+		}
+	}
+}
+
 export const getApiInstructions = () => {
 	return `
 <style>

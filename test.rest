@@ -45,4 +45,6 @@ content-type: application/json
 	}
 }
 
+### DELETE FLASHCARD
+DELETE {{url}}/flashcards/3017
 
