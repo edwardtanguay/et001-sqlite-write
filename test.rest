@@ -1,0 +1,35 @@
+@url = http://localhost:3703
+
+### BASE
+{{url}}
+
+### ALL FLASHCARDS
+{{url}}/flashcards
+
+### ALL FLASHCARDS IN A CATEGORY
+{{url}}/flashcards/category/git
+
+### SINGLE FLASHCARD 
+{{url}}/flashcards/2764
+
+### SINGLE FLASHCARD: ERROR TEST NOT A NUMBER
+{{url}}/flashcards/skjfksdfj
+
+### SINGLE FLASHCARD: ERROR TEST ID OUT OF RANGE
+{{url}}/flashcards/9999
+
+### GET ALL CATEGORIES
+{{url}}/categories
+
+### POST FLASHCARD
+POST {{url}}/flashcards
+content-type: application/json
+
+{
+	"flashcard": {
+		"category": "linux",
+		"front": "show all files with full info",
+		"back": "`ls -al`"
+	}
+}
+

@@ -1,0 +1,42 @@
+{
+	"name": "et002-ssr-web-ts-es6",
+	"version": "1.0.0",
+	"description": "",
+	"type": "module",
+	"main": "index.js",
+	"scripts": {
+		"setupservice": "pm2 start --name sqlite-readonly-backend npm -- start",
+		"dev": "nodemon",
+		"start": "node dist/server.js",
+		"deploy": "git pull --no-rebase && npm i && npm run build && pm2 restart sqlite-readonly-backend",
+		"build": "tsc"
+	},
+	"nodemonConfig": {
+		"watch": [
+			"src"
+		],
+		"ext": "ts",
+		"exec": "npm run build && node dist/server.js"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/better-sqlite3": "^7.6.3",
+		"@types/cors": "^2.8.13",
+		"@types/express": "^4.17.14",
+		"@types/lodash-es": "^4.17.6",
+		"@types/node": "^18.11.10",
+		"nodemon": "^2.0.20",
+		"typescript": "^4.9.3"
+	},
+	"dependencies": {
+		"axios": "^1.2.0",
+		"better-sqlite3": "^8.0.1",
+		"cors": "^2.8.5",
+		"dotenv": "^16.0.3",
+		"express": "^4.18.2",
+		"lodash-es": "^4.17.21",
+		"node-fetch": "^3.3.0"
+	}
+}
