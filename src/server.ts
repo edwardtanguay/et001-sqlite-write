@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import logger from './logger.js';
 import * as config from './config.js';
+import { INewFlashcard } from './interfaces.js';
 
 const app = express();
 app.use(cors());
@@ -48,8 +49,22 @@ app.get('/categories', (req: express.Request, res: express.Response) => {
 
 app.post('/flashcards', (req: express.Request, res: express.Response) => {
 	const flashcard = req.body.flashcard;
-	console.log(flashcard);
-	// res.json(model.getFlashcards());
+	const result = model.addFlashcard(flashcard)
+	res.json(result);
+});
+
+app.put('/flashcards/:id', (req: express.Request, res: express.Response) => {
+	const id = Number(req.params.id);
+	const newFlashcard: INewFlashcard = req.body.flashcard;
+	if (isNaN(id)) {
+		res.status(400).send({
+			error: true,
+			message: "sent string, should be number"
+		});
+	} else {
+		const result = model.editFlashcard(id, newFlashcard);
+		res.json(result);
+	}
 });
 
 app.listen(config.port, () => {

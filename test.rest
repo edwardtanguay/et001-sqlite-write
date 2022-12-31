@@ -21,7 +21,7 @@
 ### GET ALL CATEGORIES
 {{url}}/categories
 
-### POST FLASHCARD
+### ADD FLASHCARD
 POST {{url}}/flashcards
 content-type: application/json
 
@@ -32,4 +32,17 @@ content-type: application/json
 		"back": "`ls -al`"
 	}
 }
+
+### EDIT FLASHCARD
+PUT {{url}}/flashcards/3020
+content-type: application/json
+
+{
+	"flashcard": {
+		"category": "nnn",
+		"front": "show all files with full info",
+		"back": "`ls -al`"
+	}
+}
+
 

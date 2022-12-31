@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
-import { IFlashcard } from './interfaces.js';
+import { IFlashcard, INewFlashcard } from './interfaces.js';
 import * as tools from './tools.js';
+import * as model from './model.js';
 
 const dbAbsolutePathAndFileName = tools.absolutifyPathAndFileName('src/data/db.sqlite');
 const db = new Database(dbAbsolutePathAndFileName);
@@ -50,6 +51,47 @@ ORDER BY c.name
 		categories.push(row);
 	}
 	return categories;
+}
+
+export const addFlashcard = (flashcard: INewFlashcard) => {
+	try {
+		const stmt = db.prepare(`INSERT INTO flashcards (category, front, back) VALUES (?, ?, ?)`);
+		const result = stmt.run(flashcard.category, flashcard.front, flashcard.back);
+		return {
+			status: "success",
+			idOfNewRecord: result.lastInsertRowid
+		}
+	}
+	catch (e) {
+		return {
+			status: "error",
+			message: e.message
+		}
+	}
+}
+
+export const editFlashcard = (id: number, newFlashcard: INewFlashcard) => {
+	try {
+		const stmt = db.prepare(`UPDATE flashcards SET category = ?, front = ?, back = ? WHERE id = ?`);
+		const result = stmt.run(newFlashcard.category, newFlashcard.front, newFlashcard.back, id);
+		if (result.changes === 1) {
+			return {
+				status: "success",
+				editedFlashcard: model.getFlashcard(id)
+			}
+		} else {
+			return {
+				status: "error",
+				message: `database changes = ${result.changes}`
+			}
+		}
+	}
+	catch (e) {
+		return {
+			status: "error",
+			message: e.message
+		}
+	}
 }
 
 export const getApiInstructions = () => {

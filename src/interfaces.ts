@@ -1,9 +1,12 @@
-export interface IFlashcard {
-	id: number;
+export interface INewFlashcard {
 	category: string;
-	categoryName: string;
 	front: string;
 	back: string;
+}
+
+export interface IFlashcard extends INewFlashcard {
+	id: number;
+	categoryName: string;
 }
 
 export interface ICategoryItem {
